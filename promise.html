@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script src="./myPromise.js"></script>
+<script>
+    // 测试myPromise用例
+    let promise = new MyPromise(function (resolve, reject) {
+        // resolve();
+        // reject();
+        setTimeout(function () {
+            resolve('2222');
+            // reject('error');
+        }, 1000);
+    });
+    let promiseA = promise.then(function (data) {
+        console.log("成功",data);
+    });
+    promiseA.catch(function (err) {
+        console.log("失败",err);
+    });
+
+    // 测试Promise.all
+    let p1 = new MyPromise(function (resolve, reject) {
+            // resolve("111");
+            reject("aaa");
+    });
+    let p2 = new MyPromise(function (resolve, reject) {
+        setTimeout(function () {
+            // resolve("222");
+            reject('bbb')
+        }, 5000);
+    });
+    let p3 = new MyPromise(function (resolve, reject) {
+        setTimeout(function () {
+            resolve("333");
+        }, 3000);
+    });
+
+
+    let promise1 = MyPromise.all([p1, p2, p3]);
+    promise1.then(function (result) {
+        console.log("成功", result);
+    }, function (err) {
+        console.log("失败", err);
+    });
+
+    //测试Promise.race
+    let promise2 = MyPromise.race([p1, p2, p3]);
+    promise2.then(function (result) {
+        console.log("成功", result);
+    }, function (err) {
+        console.log("失败", err);
+    });
+</script>
+</body>
+</html>
